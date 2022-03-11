@@ -1,6 +1,6 @@
 package com.boleks.fraud.controller;
 
-import com.boleks.fraud.model.FraudCheckResponse;
+import com.boleks.clients.fraud.FraudCheckResponse;
 import com.boleks.fraud.service.FraudCheckHistoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,19 +1,19 @@
 package com.boleks.customer.service;
 
+import com.boleks.clients.fraud.FraudCheckResponse;
+import com.boleks.clients.fraud.FraudClient;
 import com.boleks.customer.model.Customer;
 import com.boleks.customer.model.CustomerRegistrationRequest;
-import com.boleks.customer.model.FraudCheckResponse;
 import com.boleks.customer.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @AllArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final RestTemplate restTemplate;
+    private final FraudClient fraudClient;
 
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -22,11 +22,8 @@ public class CustomerService {
                 .email(request.email())
                 .build();
         customerRepository.saveAndFlush(customer);
-        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                "http://FRAUD/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,
-                customer.getId()
-        );
+
+        FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(customer.getId());
 
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("Customer is on fraudster list.");

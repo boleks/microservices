@@ -1,4 +1,4 @@
-package com.boleks.fraud.model;
+package com.boleks.clients.fraud;
 
 public record FraudCheckResponse(Boolean isFraudster) {
 }
