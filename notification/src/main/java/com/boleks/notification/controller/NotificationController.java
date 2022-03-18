@@ -22,6 +22,4 @@ public class NotificationController {
         log.info("New notification received from {} for {} ", notificationRequest.sender(), notificationRequest.toCustomerEmail());
         notificationService.send(notificationRequest);
     }
-
-    ;
 }
