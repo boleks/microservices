@@ -13,7 +13,6 @@ services:
     networks:
       - postgres
     restart: unless-stopped
-
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
@@ -28,7 +27,6 @@ services:
     networks:
       - postgres
     restart: unless-stopped
-
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
@@ -48,22 +46,22 @@ services:
     image: boleks/eureka-server:latest
     container_name: eureka-server
     ports:
-      - 8761:8761
-    networks:
-      - spring
+      - "8761:8761"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
     depends_on:
       - zipkin
   apigateway:
     image: boleks/apigateway:latest
     container_name: apigateway
     ports:
-      - 8083:8083
-    networks:
-      - spring
+      - "8083:8083"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
     depends_on:
       - zipkin
       - eureka-server
@@ -71,7 +69,7 @@ services:
     image: boleks/customer:latest
     container_name: customer
     ports:
-      - 8080:8080
+      - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
@@ -86,7 +84,7 @@ services:
     image: boleks/fraud:latest
     container_name: fraud
     ports:
-      - 8081:8081
+      - "8081:8081"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
@@ -101,7 +99,7 @@ services:
     image: boleks/notification:latest
     container_name: notification
     ports:
-      - 8082:8082
+      - "8082:8082"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
@@ -112,7 +110,6 @@ services:
       - eureka-server
       - postgres
       - rabbitmq
-
 networks:
   postgres:
     driver: bridge
